@@ -1,0 +1,12 @@
+FROM alpine:latest
+ARG TARGETPLATFORM
+
+RUN apk update && \
+    apk upgrade --no-cache && \
+    apk add --no-cache ca-certificates &&\
+    rm -rf /var/cache/apk/*
+
+COPY /build/output/${TARGETPLATFORM}/ddns /usr/bin/ddns
+WORKDIR /data
+
+ENTRYPOINT [ "/usr/bin/ddns" ]
