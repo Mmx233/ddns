@@ -11,9 +11,6 @@ import (
 func initEnvConfig() {
 	EnvConfig.Load("", &Env)
 
-	if Env.Domain == "" {
-		log.Fatalln("domain can't be empty")
-	}
 	if !Env.Ipv4 && !Env.Ipv6 {
 		log.Fatalln("both ipv4 and ipv6 ddns is disabled")
 	}
@@ -44,14 +41,14 @@ func initEnvConfig() {
 }
 
 type _EnvConfig struct {
-	Ipv4    bool
-	Ipv6    bool
+	Ipv4    bool `config:"omitempty"`
+	Ipv6    bool `config:"omitempty"`
 	Domain  string
-	TTL     int
-	Timeout int
+	TTL     int `config:"omitempty"`
+	Timeout int `config:"omitempty"`
 	Zone    string
 	Token   string
-	STUN    string
+	STUN    string `config:"omitempty"`
 }
 
 var Env _EnvConfig
