@@ -18,6 +18,10 @@ func initEnvConfig() {
 		log.Fatalln("both ipv4 and ipv6 ddns is disabled")
 	}
 
+	if Env.TTL == 0 {
+		Env.TTL = 600
+	}
+
 	if Env.STUN == "" {
 		Env.STUN = "stun.l.google.com:19302"
 	}
