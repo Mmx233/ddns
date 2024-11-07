@@ -3,8 +3,11 @@ module github.com/Mmx233/ddns
 go 1.23.2
 
 require (
+	github.com/Mmx233/EnvConfig v0.0.2
+	github.com/antonfisher/nested-logrus-formatter v1.3.1
 	github.com/cloudflare/cloudflare-go v0.109.0
 	github.com/pion/stun v0.6.1
+	github.com/sirupsen/logrus v1.9.3
 )
 
 require (
