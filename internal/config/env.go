@@ -3,6 +3,9 @@ package config
 import (
 	"github.com/Mmx233/EnvConfig"
 	log "github.com/sirupsen/logrus"
+	"net"
+	"net/http"
+	"time"
 )
 
 func initEnvConfig() {
@@ -15,15 +18,37 @@ func initEnvConfig() {
 	if Env.STUN == "" {
 		Env.STUN = "stun.l.google.com:19302"
 	}
+
+	if Env.Timeout == 0 {
+		Env.Timeout = 30
+	}
+	Timeout = time.Duration(Env.Timeout) * time.Second
+
+	HttpClient = &http.Client{
+		Transport: &http.Transport{
+			Proxy:               http.ProxyFromEnvironment,
+			TLSHandshakeTimeout: Timeout,
+			DialContext: (&net.Dialer{
+				Timeout: Timeout,
+			}).DialContext,
+		},
+		Timeout: Timeout,
+	}
 }
 
 type _EnvConfig struct {
-	Ipv4  bool
-	Ipv6  bool
-	TTL   int
-	Zone  string
-	Token string
-	STUN  string
+	Ipv4    bool
+	Ipv6    bool
+	TTL     int
+	Timeout int
+	Zone    string
+	Token   string
+	STUN    string
 }
 
 var Env _EnvConfig
+
+var (
+	Timeout    time.Duration
+	HttpClient *http.Client
+)
